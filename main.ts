@@ -1,10 +1,27 @@
-async function fetchData() {
-    const response = await fetch("https://api.open-meteo.com/v1/forecast?latitude=52.4069&longitude=16.9299&current=temperature_2m")
-    const data = await response.json()
-    console.log('Temperatura zewnętrzna:'+ data.current.temperature_2m)
-}
+import mqtt from 'mqtt'
 
-fetchData()
+const client = mqtt.connect('mqtt://192.168.1.17', {
+    username: process.env.MQTT_USERNAME,
+    password: process.env.MQTT_PASSWORD,
+    port: 1883
+})
 
-console.log("Hello from GitHub")
-console.log("Looking for changes")
+client.on('connect', () => {
+    console.log('Connected to MQTT broker')
+})
+
+client.on('error', (error) => {
+    console.error('Connection error:', error)
+})
+
+client.on('close', () => {
+    console.log('Connection to MQTT broker closed')
+})
+
+client.on('offline', () => {
+    console.log('Client is offline')
+})
+console.log('123')
+
+
+
