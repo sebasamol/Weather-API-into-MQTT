@@ -21,7 +21,13 @@ client.on('close', () => {
 client.on('offline', () => {
     console.log('Client is offline')
 })
-console.log('123')
 
+client.publish('home/temperature', '22.5', { qos: 0, retain: false }, (error) => {
+    if (error) {
+        console.error('Error publishing message:', error)
+    } else {
+        console.log('Message published successfully')
+    }
+})
 
 
